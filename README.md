@@ -4,5 +4,5 @@ Ansible playbook to install a WordPress instance
 
 ## Usage
 ```bash
-ansible-playbook provisioning.yml -u wordpress -i hosts
+$ ansible-playbook provisioning.yml -u wordpress -i hosts
 ```
