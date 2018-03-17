@@ -1,0 +1,4 @@
+[wordpress]
+192.168.0.151 ansible_user=wordpress ansible_sudo_pass=123456
+[database]
+192.168.0.152 ansible_user=database ansible_sudo_pass=123456

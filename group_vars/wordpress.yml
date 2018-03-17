@@ -1,0 +1,5 @@
+db_ip: '192.168.0.152'
+
+open_firewall_ports:
+  - 80
+  - 443

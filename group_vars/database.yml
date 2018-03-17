@@ -1,0 +1,8 @@
+mysql_ips_allowed: 
+  - '192.168.0.151'                                                                                   
+
+#mysql_root_password: "123456"
+#mysql_cnf_file: "mysqld.cnf"
+#mysql_cnf_file_dir: "/etc/mysql/mysql.conf.d"
+open_firewall_ports:
+  - 3306

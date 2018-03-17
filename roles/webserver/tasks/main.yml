@@ -1,0 +1,21 @@
+---
+- name: "Install Apache2, PHP and dependencies"
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - php
+    - apache2
+    - libapache2-mod-php
+    - php-gd
+    - php-ssh2
+    - php-mcrypt
+    - php-mysql
+
+- name: "Remove default site file from apache"
+  shell: a2dissite 000-default
+  become: yes
+  notify:                                                                                                     
+    - restart apache
+

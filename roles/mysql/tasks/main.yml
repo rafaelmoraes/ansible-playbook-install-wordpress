@@ -1,0 +1,45 @@
+---
+- name: "Set MySQL root password"
+  debconf: "name='mysql-server' question='mysql-server/root_password' value='{{ mysql_root_password }}' vtype='password'"
+  become: true
+ 
+- name: "Confirm MySQL root password"
+  debconf: "name='mysql-server' question='mysql-server/root_password_again' value='{{ mysql_root_password }}' vtype='password'"
+  become: true
+ 
+- name: "Install MySQL"
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - mysql-server-5.7
+    - python-mysqldb
+    
+- name: "Create DB"
+  mysql_db:
+    name: "{{ db_name }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}" 
+    state: present
+ 
+- name: "Create user DB"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ db_username }}"
+    password: "{{ db_user_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    host: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ mysql_ips_allowed }}"
+ 
+- name: "Configure MySQL to accept remote connections"
+  template:
+    src: "templates/{{ mysql_cnf_file }}"
+    dest: "{{ mysql_cnf_file_dir }}/{{ mysql_cnf_file }}"
+  become: yes
+  notify:
+    - "restart mysql"
+

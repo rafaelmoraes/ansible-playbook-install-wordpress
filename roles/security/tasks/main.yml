@@ -1,0 +1,34 @@
+---
+- name: "Install Ufw"
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - ufw
+
+- name: "Open firewall ports"
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    state: enabled
+  with_items:
+    - "{{ open_firewall_ports }}"
+  become: yes
+
+- name: "Close firewall ports"
+  ufw:
+    rule: deny
+    port: "{{ item }}"
+    state: enabled
+  with_items:
+    - "{{ close_firewall_ports }}"
+  become: yes
+
+- name: "Keeping port 22 open"
+  ufw:
+    rule: allow
+    port: 22
+    state: enabled
+  become: yes
+
